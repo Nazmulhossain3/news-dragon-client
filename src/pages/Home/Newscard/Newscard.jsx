@@ -1,0 +1,70 @@
+import moment from "moment";
+import React from "react";
+import { Card, Image } from "react-bootstrap";
+import { FaEye, FaRegBookmark, FaRegStar, FaShareAlt, FaStar } from "react-icons/fa";
+import Rating from "react-rating";
+import { Link } from "react-router-dom";
+
+const Newscard = ({ news }) => {
+  const { _id, details, title, image_url, total_view, rating } = news;
+  const { name, published_date, img } = news.author;
+  return (
+    <Card className="mb-4">
+      <Card.Header className="d-flex  align-items-center">
+        <Image style={{ height: "40px" }} src={img} roundedCircle />
+
+        <div className="p-2 flex-grow-1">
+          <p className="mb-0">{name}</p>
+          <p>
+            <small>{moment(published_date).format("yyyy-MM-D")}</small>
+          </p>
+        </div>
+
+        <div>
+          <FaRegBookmark></FaRegBookmark>
+          <FaShareAlt></FaShareAlt>
+        </div>
+      </Card.Header>
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+
+        <Card.Img variant="top" src={image_url} />
+
+        <Card.Text>
+          {details.length < 250 ? (
+            <>{details}</>
+          ) : (
+            <>
+              {details.slice(0, 250)}...{" "}
+              <Link to={`/news/${_id}`}>Read More</Link>{" "}
+            </>
+          )}
+        </Card.Text>
+      </Card.Body>
+      <Card.Footer className="text-muted d-flex">
+      <Rating
+      
+ placeholderRating={rating.number}
+      readonly
+  emptySymbol={<FaRegStar></FaRegStar>}
+  placeholderSymbol={<FaStar className="text-warning" ></FaStar>}
+  fullSymbol={<FaStar></FaStar>}
+
+      
+      >
+     
+      </Rating>
+     
+      <div className="flex-grow-1">
+        <span>{rating?.number}</span>
+      </div>
+      
+        <div>
+          <FaEye></FaEye> {total_view}
+        </div>
+      </Card.Footer>
+    </Card>
+  );
+};
+
+export default Newscard;
